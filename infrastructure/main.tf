@@ -19,6 +19,7 @@ module "rpa-professional-api" {
   resource_group_name = "${azurerm_resource_group.rg.name}"
   subscription        = "${var.subscription}"
   capacity            = "${var.capacity}"
+  common_tags         = "${var.common_tags}"
 
   app_settings = {
     LOGBACK_REQUIRE_ALERT_LEVEL = false
