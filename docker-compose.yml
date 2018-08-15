@@ -1,15 +1,15 @@
 version: '2.1'
 
 services:
-  spring-boot-template:
+  rpa-professional-api:
     build:
       context: .
       args:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: docker.artifactory.reform.hmcts.net/reform/spring-boot-template
-    container_name: spring-boot-template
+    image: docker.artifactory.reform.hmcts.net/reform/rpa-professional-api
+    container_name: rpa-professional-api
     environment:
       # these environment variables are used by java-logging library
       - ROOT_APPENDER

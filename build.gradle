@@ -151,7 +151,7 @@ dependencies {
 mainClassName = 'uk.gov.hmcts.reform.demo.Application'
 
 bootJar {
-  archiveName = 'spring-boot-template.jar'
+  archiveName = 'rpa-professional-api.jar'
 
   manifest {
     attributes('Implementation-Version': project.version.toString())
