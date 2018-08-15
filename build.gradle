@@ -121,22 +121,17 @@ repositories {
 def versions = [
   reformLogging: '3.0.1',
   springBoot: springBoot.class.package.implementationVersion,
-  springHystrix: '2.0.0.RELEASE',
   springfoxSwagger: '2.9.2'
 ]
 
 dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBoot
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: versions.springBoot
 
   compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
 
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: versions.reformLogging
-  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: versions.springHystrix
-  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix-dashboard', version: versions.springHystrix
 
   testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
 
@@ -148,7 +143,7 @@ dependencies {
   smokeTestCompile sourceSets.main.runtimeClasspath
 }
 
-mainClassName = 'uk.gov.hmcts.reform.demo.Application'
+mainClassName = 'uk.gov.hmcts.reform.rpa.papi.Application'
 
 bootJar {
   archiveName = 'rpa-professional-api.jar'
