@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.rpa.papi;
+package uk.gov.hmcts.reform.rpa.papi.functional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
