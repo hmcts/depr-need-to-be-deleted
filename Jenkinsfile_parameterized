@@ -15,7 +15,7 @@ properties([
 
 def type = "java"
 def product = "rpa"
-def component = "papi"
+def component = "professional-api"
 
 def channel = '#professional_api'
 
@@ -34,5 +34,5 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
-    loadVaultSecrets(secrets)
+    //loadVaultSecrets(secrets)
 }
