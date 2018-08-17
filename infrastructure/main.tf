@@ -38,7 +38,7 @@ resource "azurerm_template_deployment" "api" {
   name                = "${var.product}-api-${var.env}"
   deployment_mode     = "Incremental"
   resource_group_name = "core-infra-${var.env}"
-  count               = "${local.create_api ? 1 : 0}"
+  count               = "1"
 
   parameters = {
     apiManagementServiceName  = "core-api-mgmt-${var.env}"
