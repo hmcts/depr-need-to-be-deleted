@@ -26,3 +26,8 @@ variable "capacity" {
 variable "common_tags" {
   type = "map"
 }
+
+variable api_gateway_test_certificate_thumbprint {
+  type = "string"
+  default = ""
+}
