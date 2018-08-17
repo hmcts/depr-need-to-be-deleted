@@ -9,6 +9,7 @@ resource "azurerm_resource_group" "rg" {
 locals {
   ase_name               = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
   
+  app = "papi-gateway"
   allowed_certificate_thumbprints = [
     "${var.api_gateway_test_certificate_thumbprint}"
   ]
@@ -16,7 +17,7 @@ locals {
   thumbprints_in_quotes = "${formatlist("&quot;%s&quot;", local.allowed_certificate_thumbprints)}"
   thumbprints_in_quotes_str = "${join(",", local.thumbprints_in_quotes)}"
   api_policy = "${replace(file("template/api-policy.xml"), "ALLOWED_CERTIFICATE_THUMBPRINTS", local.thumbprints_in_quotes_str)}"
-  api_base_path = "rhubarb-recipes-api"
+  api_base_path = "rpa-professional-api"
 }
 
 module "rpa-professional-api" {
