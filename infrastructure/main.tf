@@ -12,14 +12,14 @@ locals {
 
 resource "azurerm_resource_group" "rg" {
   name     = "${var.product}-${var.component}-${var.env}"
-  location = "${var.location_app}"
+  location = "${var.location}"
 }
 
 
 module "rpa-professional-api" {
   source              = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product             = "${var.product}-${var.component}"
-  location            = "${var.location_app}"
+  location            = "${var.location}"
   env                 = "${var.env}"
   ilbIp               = "${var.ilbIp}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
