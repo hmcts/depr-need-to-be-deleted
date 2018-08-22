@@ -10,6 +10,12 @@ locals {
   api_base_path = "rpa-professional-api"
 }
 
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.product}-${var.component}-${var.env}"
+  location = "${var.location_app}"
+}
+
+
 module "rpa-professional-api" {
   source              = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product             = "${var.product}-${var.component}"
@@ -37,7 +43,7 @@ resource "azurerm_template_deployment" "api" {
   template_body       = "${data.template_file.api_template.rendered}"
   name                = "${var.product}-api-${var.env}"
   deployment_mode     = "Incremental"
-  resource_group_name = "rpa-professional-api-${var.env}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
   count               = "1"
 
   parameters = {
