@@ -4,9 +4,7 @@ locals {
   ase_name  = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
   app       = "papi-api"
 
-  thumbprints_in_quotes = "${formatlist("&quot;%s&quot;", local.allowed_certificate_thumbprints)}"
-  thumbprints_in_quotes_str = "${join(",", local.thumbprints_in_quotes)}"
-  api_policy = "${replace(file("template/api-policy.xml"), "ALLOWED_CERTIFICATE_THUMBPRINTS", local.thumbprints_in_quotes_str)}"
+  api_policy = "${file("template/api-policy.xml")}"
   api_base_path = "rpa-professional-api"
 }
 
