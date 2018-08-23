@@ -2,10 +2,7 @@ provider "azurerm" {}
 
 locals {
   ase_name  = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
-  app       = "papi-api"
-
-  api_policy = "${file("template/api-policy.xml")}"
-  api_base_path = "rpa-professional-api"
+  app       = "professional-api"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -15,7 +12,7 @@ resource "azurerm_resource_group" "rg" {
 
 
 module "rpa-professional-api" {
-  source              = "git@github.com:hmcts/moj-module-webapp?ref=master"
+  source              = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product             = "${var.product}-${var.component}"
   location            = "${var.location}"
   env                 = "${var.env}"
@@ -29,6 +26,16 @@ module "rpa-professional-api" {
     LOGBACK_REQUIRE_ALERT_LEVEL = false
     LOGBACK_REQUIRE_ERROR_CODE  = false
   }
+}
+
+module "local_key_vault" {
+  source 					= "git@github.com:hmcts/cnp-module-key-vault?ref=master"
+  product 					= "${var.product}-${var.component}"
+  env 						= "${var.env}"
+  tenant_id 				= "${var.tenant_id}"
+  object_id 				= "${var.jenkins_AAD_objectId}"
+  resource_group_name 		= "${var.product}-${var.component}-${var.env}"
+  product_group_object_id 	= "5d9cd025-a293-4b97-a0e5-6f43efce02c0"
 }
 
 # region API template 
@@ -45,11 +52,11 @@ resource "azurerm_template_deployment" "api" {
   count               = "1"
 
   parameters = {
-    apiManagementServiceName  = "professional-api-portal-${var.env}"
+    apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
     apiName                   = "professional-api"
-    apiProductName            = "papi"
+    apiProductName            = "The Professional Api Product"
     serviceUrl                = "http://${var.product}-${local.app}-${var.env}.service.core-compute-${var.env}.internal"
-    apiBasePath               = "${local.api_base_path}"
-    policy                    = "${local.api_policy}"
+    apiBasePath               = "professional-api"
+    policy                    = "${file("template/api-policy.xml")}"
   }
 }
