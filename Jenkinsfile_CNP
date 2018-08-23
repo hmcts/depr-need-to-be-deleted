@@ -17,7 +17,7 @@ def type = "java"
 def product = "rpa"
 def component = "professional-api"
 
-def channel = '#professional_api'
+def channel = '#professional_api_disable'
 
 List<LinkedHashMap<String, Object>> secrets = [
     // secret('s2s-token', 'S2S_TOKEN')
