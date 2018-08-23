@@ -20,7 +20,7 @@ module "rpa-professional-api" {
   location            = "${var.location}"
   env                 = "${var.env}"
   ilbIp               = "${var.ilbIp}"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
+  resource_group_name = "${var.product}-${var.component}-${var.env}"
   subscription        = "${var.subscription}"
   capacity            = "${var.capacity}"
   common_tags         = "${var.common_tags}"
@@ -41,7 +41,7 @@ resource "azurerm_template_deployment" "api" {
   template_body       = "${data.template_file.api_template.rendered}"
   name                = "${var.product}-api-${var.env}"
   deployment_mode     = "Incremental"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
+  resource_group_name = "${var.product}-${var.component}-${var.env}"
   count               = "1"
 
   parameters = {
