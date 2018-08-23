@@ -30,6 +30,7 @@ module "rpa-professional-api" {
 
 module "local_key_vault" {
   source 					= "git@github.com:hmcts/cnp-module-key-vault?ref=master"
+  name                      = "${var.product}-${var.component}-${var.env}"
   product 					= "${var.product}-${var.component}"
   env 						= "${var.env}"
   tenant_id 				= "${var.tenant_id}"
