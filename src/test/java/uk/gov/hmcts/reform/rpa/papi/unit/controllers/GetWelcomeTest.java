@@ -32,4 +32,11 @@ public class GetWelcomeTest {
 
         assertThat(response.getResponse().getContentAsString()).startsWith("Welcome");
     }
+
+    @Test
+    public void should_true_request_with_200_response_code() throws Exception {
+        MvcResult response = mockMvc.perform(get("/true")).andExpect(status().isOk()).andReturn();
+
+        assertThat(response.getResponse().getContentAsString()).contains("true");
+    }
 }
