@@ -17,7 +17,7 @@ module "rpa-professional-api" {
   location            = "${var.location}"
   env                 = "${var.env}"
   ilbIp               = "${var.ilbIp}"
-  resource_group_name = "${var.product}-${var.component}-${var.env}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
   subscription        = "${var.subscription}"
   capacity            = "${var.capacity}"
   common_tags         = "${var.common_tags}"
@@ -35,7 +35,7 @@ module "local_key_vault" {
   env 						= "${var.env}"
   tenant_id 				= "${var.tenant_id}"
   object_id 				= "${var.jenkins_AAD_objectId}"
-  resource_group_name 		= "${var.product}-${var.component}-${var.env}"
+  resource_group_name 		= "${azurerm_resource_group.rg.name}"
   product_group_object_id 	= "5d9cd025-a293-4b97-a0e5-6f43efce02c0"
 }
 
@@ -49,7 +49,7 @@ resource "azurerm_template_deployment" "api" {
   template_body       = "${data.template_file.api_template.rendered}"
   name                = "${var.product}-api-${var.env}"
   deployment_mode     = "Incremental"
-  resource_group_name = "${var.product}-${var.component}-${var.env}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
   count               = "1"
 
   parameters = {
