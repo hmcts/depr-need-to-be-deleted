@@ -21,8 +21,19 @@ public class RootController {
      *
      * @return Welcome message from the service.
      */
-    @GetMapping
+    @GetMapping("/hello")
     public ResponseEntity<String> welcome() {
         return ok("Welcome to Professional API");
     }
+
+    @GetMapping()
+    public ResponseEntity<String> ping() {
+        return ok("pong");
+    }
+
+    @GetMapping("/true")
+    public ResponseEntity<Boolean> isTrue() {
+        return ok(true);
+    }
+
 }
