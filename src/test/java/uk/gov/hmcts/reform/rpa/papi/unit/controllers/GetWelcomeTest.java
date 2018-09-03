@@ -20,8 +20,15 @@ public class GetWelcomeTest {
     private transient MockMvc mockMvc;
 
     @Test
-    public void should_welcome_upon_root_request_with_200_response_code() throws Exception {
+    public void should_root_request_with_200_response_code() throws Exception {
         MvcResult response = mockMvc.perform(get("/")).andExpect(status().isOk()).andReturn();
+
+        assertThat(response.getResponse().getContentAsString()).startsWith("pong");
+    }
+
+    @Test
+    public void should_hello_request_with_200_response_code() throws Exception {
+        MvcResult response = mockMvc.perform(get("/hello")).andExpect(status().isOk()).andReturn();
 
         assertThat(response.getResponse().getContentAsString()).startsWith("Welcome");
     }
