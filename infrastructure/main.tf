@@ -21,7 +21,9 @@ module "rpa-professional-api" {
   subscription        = "${var.subscription}"
   capacity            = "${var.capacity}"
   common_tags         = "${var.common_tags}"
-
+  asp_rg              = "rpa-professional-api-${var.env}"
+  asp_name            = "rpa-professional-api-${var.env}"
+  
   app_settings = {
     LOGBACK_REQUIRE_ALERT_LEVEL = false
     LOGBACK_REQUIRE_ERROR_CODE  = false
