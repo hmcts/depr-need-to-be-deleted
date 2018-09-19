@@ -32,7 +32,7 @@ public class RootController {
         return ok("Welcome to Professional API");
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public ResponseEntity<String> ping() {
         log.error("is that an ping error ");
         return ok("pong");
