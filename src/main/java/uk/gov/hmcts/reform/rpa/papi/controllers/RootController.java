@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -42,6 +43,12 @@ public class RootController {
     public ResponseEntity<Boolean> isTrue() {
         log.error("is that an true error ");
         return ok(true);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<String> me(@RequestHeader(value = "Authorization") String authorization) {
+        log.error("is that an true error ");
+        return ok("Welcome to Professional API token:" + authorization);
     }
 
 }
