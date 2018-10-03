@@ -32,21 +32,6 @@
         "description": "Path to the API (excluding host)"
       }
     },
-    "oauthTokenEndpoint": {
-      "type": "string"
-    },
-    "oauthAuthorizationEndpointRedirectUri": {
-      "type": "string"
-    },
-    "oauthAuthorizationEndpoint": {
-      "type": "string"
-    },
-    "oauthClientId": {
-      "type": "string"
-    },
-    "oauthClientSecret": {
-      "type": "string"
-    },
     "policy": {
       "type": "string"
     }
