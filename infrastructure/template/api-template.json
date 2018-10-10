@@ -108,6 +108,6 @@
 	   "dependsOn": [
         "[variables('claimApiTypeName')]"
       ]
-	},
+	}
   ]
 }
