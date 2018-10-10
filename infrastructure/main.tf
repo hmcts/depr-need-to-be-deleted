@@ -52,7 +52,7 @@ data "template_file" "claim_api_def" {
 }
 
 resource "azurerm_template_deployment" "api" {
-  template_body       = " ${data.template_file.api_template.rendered}"
+  template_body       = "${data.template_file.api_template.rendered}"
   name                = "${var.product}-api-${var.env}"
   deployment_mode     = "Incremental"
   resource_group_name = "${azurerm_resource_group.rg.name}"
@@ -61,7 +61,7 @@ resource "azurerm_template_deployment" "api" {
   parameters = {
     apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
     testServiceUrl            = "http://rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
-    claimServiceUrl           = "http://cmc-claim-store-${var.env}.service.core-comput-${var.env}.internal"
+    claimServiceUrl           = "http://cmc-claim-store-${var.env}.service.core-compute-${var.env}.internal"
     claimDefinitionBody       = "${data.template_file.claim_api_def.rendered}"
     policy                    = "${file("template/api-policy.xml")}"
   }

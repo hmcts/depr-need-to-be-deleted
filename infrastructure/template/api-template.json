@@ -83,6 +83,8 @@
 	    "displayName": "claim-api",
 	    "serviceUrl": "[parameters('claimServiceUrl')]",
 	    "path": "claim",
+	    "contentValue": "[parameters('claimDefinitionBody')]",
+	    "contentFormat": "swagger-json",
 	    "protocols": [
 	      "HTTPS"
 	    ]
