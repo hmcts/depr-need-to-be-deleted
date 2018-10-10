@@ -18,7 +18,10 @@
       "type": "string"
     },
     "claimDefinitionBody": {
-      "type": "string"
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
     }
   },
   "variables": {
