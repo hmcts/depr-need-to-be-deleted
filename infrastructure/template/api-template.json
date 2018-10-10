@@ -22,8 +22,9 @@
     }
   },
   "variables": {
-    "testApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/test-api')]",
-    "testApiBasePath": ""
+    "testApiTypeName":  "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/test-api')]",
+    "claimApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/claim-api')]",
+    
   },
   "resources": [
     {
@@ -88,6 +89,25 @@
 	      "HTTPS"
 	    ]
 	  }
-	}
+	},
+    {
+      "apiVersion": "2017-03-01",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "name": "[concat(parameters('apiManagementServiceName'), '/claim-api/policy')]",
+      "dependsOn": [
+        "[variables('claimApiTypeName')]"
+      ],
+      "properties": {
+        "policyContent": "[parameters('policy')]"
+      }
+    },
+    {
+	  "type": "Microsoft.ApiManagement/service/products/apis",
+	  "name": "[concat(parameters('apiManagementServiceName'), '/public/claim-api')]",
+	  "apiVersion": "2018-01-01",
+	   "dependsOn": [
+        "[variables('claimApiTypeName')]"
+      ]
+	},
   ]
 }

@@ -3,7 +3,6 @@
 	"info": {
 		"description": "Claim API",
 		"version": "1.0",
-		"title": "Claim API",
 		"termsOfService": "urn:tos",
 		"contact": {
 			
@@ -13,7 +12,6 @@
 			"url": "http://www.apache.org/licenses/LICENSE-2.0"
 		}
 	},
-	"host": "cmc-claim-store-aat.service.core-compute-aat.internal",
 	"basePath": "/",
 	"tags": [
 
