@@ -8,46 +8,32 @@
         "description": "API Management service name"
       }
     },
-    "apiName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the API (gateway)"
-      }
+    "testServiceUrl": {
+      "type": "string"
     },
-    "apiProductName": {
-      "type": "string",
-      "metadata": {
-        "description": "API Management product name"
-      }
-    },
-    "serviceUrl": {
-      "type": "string",
-      "metadata": {
-        "description": "URL of the backend service (to be protected by the API)"
-      }
-    },
-    "apiBasePath": {
-      "type": "string",
-      "metadata": {
-        "description": "Path to the API (excluding host)"
-      }
+    "claimServiceUrl": {
+      "type": "string"
     },
     "policy": {
+      "type": "string"
+    },
+    "claimDefinitionBody": {
       "type": "string"
     }
   },
   "variables": {
-    "fullApiName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/', parameters('apiName'))]"
+    "testApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/test-api')]",
+    "testApiBasePath": ""
   },
   "resources": [
     {
       "apiVersion": "2017-03-01",
       "type": "Microsoft.ApiManagement/service/apis",
-      "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('apiName'))]",
+      "name": "[concat(parameters('apiManagementServiceName'), '/test-api')]",
       "properties": {
-        "displayName": "[parameters('apiName')]",
-        "serviceUrl": "[parameters('serviceUrl')]",
-        "path": "[parameters('apiBasePath')]",
+        "displayName": "test-api",
+        "serviceUrl": "[parameters('testServiceUrl')]",
+        "path": "test",
         "protocols": [
           "HTTPS"
         ]
@@ -58,7 +44,7 @@
           "type": "operations",
           "name": "helloWorld",
           "dependsOn": [
-            "[variables('fullApiName')]"
+            "[variables('testApiTypeName')]"
           ],
           "properties": {
             "displayName": "Say hello",
@@ -72,9 +58,9 @@
     {
       "apiVersion": "2017-03-01",
       "type": "Microsoft.ApiManagement/service/apis/policies",
-      "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('apiName'),'/policy')]",
+      "name": "[concat(parameters('apiManagementServiceName'), '/test-api/policy')]",
       "dependsOn": [
-        "[variables('fullApiName')]"
+        "[variables('testApiTypeName')]"
       ],
       "properties": {
         "policyContent": "[parameters('policy')]"
@@ -82,11 +68,26 @@
     },
     {
 	  "type": "Microsoft.ApiManagement/service/products/apis",
-	  "name": "[concat(parameters('apiManagementServiceName'), '/public/', parameters('apiName'))]",
+	  "name": "[concat(parameters('apiManagementServiceName'), '/public/test-api')]",
 	  "apiVersion": "2018-01-01",
 	   "dependsOn": [
-        "[variables('fullApiName')]"
+        "[variables('testApiTypeName')]"
       ]
+	},
+	{
+	  "apiVersion": "2018-01-01",
+	  "type": "Microsoft.ApiManagement/service/apis",
+	  "name": "[concat(parameters('apiManagementServiceName'), '/claim-api')]",
+	  "properties": {
+	    "displayName": "claim-api",
+	    "serviceUrl": "[parameters('claimServiceUrl')]",
+	    "path": "claim",
+	    "contentValue": "[parameters('claimDefinitionBody')]",
+	    "contentFormat": "swagger-json",
+	    "protocols": [
+	      "HTTPS"
+	    ]
+	  }
 	}
   ]
 }

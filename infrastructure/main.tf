@@ -21,8 +21,8 @@ module "rpa-professional-api" {
   subscription        = "${var.subscription}"
   capacity            = "${var.capacity}"
   common_tags         = "${var.common_tags}"
-  asp_rg              = "rpa-professional-api-${var.env}"
-  asp_name            = "rpa-professional-api-${var.env}"
+  asp_rg              = "rpa-${var.env}"
+  asp_name            = "rpa-${var.env}"
   
   app_settings = {
     LOGBACK_REQUIRE_ALERT_LEVEL = false
@@ -36,7 +36,7 @@ module "local_key_vault" {
   product 					= "${var.product}-${var.component}"
   env 						= "${var.env}"
   tenant_id 				= "${var.tenant_id}"
-  object_id 				= "${var.jenkins_AAD_objectId}"
+  object_id 				= "${var.jenkins_AAD_objectId}"  
   resource_group_name 		= "${azurerm_resource_group.rg.name}"
   product_group_object_id 	= "5d9cd025-a293-4b97-a0e5-6f43efce02c0"
 }
@@ -45,6 +45,10 @@ module "local_key_vault" {
 
 data "template_file" "api_template" {
   template = "${file("${path.module}/template/api-template.json")}"
+}
+
+data "template_file" "claim_api_definition" {
+  template = "${file("${path.module}/template/claim-api-docs.json")}"
 }
 
 resource "azurerm_template_deployment" "api" {
@@ -56,10 +60,9 @@ resource "azurerm_template_deployment" "api" {
 
   parameters = {
     apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
-    apiName                   = "professional-api"
-    apiProductName            = "The Professional Api Product"
-    serviceUrl                = "http://${var.product}-${local.app}-${var.env}.service.core-compute-${var.env}.internal"
-    apiBasePath               = "professional-api"
+    testServiceUrl            = "http://rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
+    claimServiceUrl           = "http://cmc-claim-store-${var.env}.service.core-compute-${var.env}.internal"
+    claimDefinitionBody       = "${data.template_file.claim_api_definition.rendered}"
     policy                    = "${file("template/api-policy.xml")}"
   }
 }
