@@ -15,7 +15,7 @@
 	},
 	"host": "${testServiceUrl}",
 	"basePath": "/",
-	"schemes": ["http","https"],
+	"schemes": ["http"],
 	"tags": [
 		{
 			"name": "root-controller",
