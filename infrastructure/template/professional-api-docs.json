@@ -3,7 +3,8 @@
 	"info": {
 		"description": "Api Documentation",
 		"version": "1.0",
-		"title": "Api Documentation"
+		"title": "Api Documentation",
+		"termsOfService": "urn:tos"
 	},
 	"host": "rpa-professional-api-aat-staging.service.core-compute-aat.internal",
 	"basePath": "/",
@@ -14,13 +15,13 @@
 		}
 	],
 	"paths": {
-		"/": {
+		"/hello": {
 			"get": {
 				"tags": [
 					"root-controller"
 				],
-				"summary": "ping",
-				"operationId": "pingUsingGET",
+				"summary": "welcome",
+				"operationId": "welcomeUsingGET",
 				"produces": [
 					"*/*"
 				],
@@ -29,6 +30,27 @@
 						"description": "OK",
 						"schema": {
 							"type": "string"
+						}
+					}
+				},
+				"deprecated": false
+			}
+		},
+		"/true": {
+			"get": {
+				"tags": [
+					"root-controller"
+				],
+				"summary": "isTrue",
+				"operationId": "isTrueUsingGET",
+				"produces": [
+					"*/*"
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "boolean"
 						}
 					}
 				},
