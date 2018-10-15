@@ -48,13 +48,12 @@ data "template_file" "api_template" {
 }
 
 data "template_file" "claim_api_def" {
-#  template = "${file("${path.module}/template/claim-api-docs.json")}"
   template = "${file("${path.module}/template/professional-api-docs.json")}"
 }
 
 resource "azurerm_template_deployment" "api" {
   template_body       = "${data.template_file.api_template.rendered}"
-  name                = "${var.product}-api-${var.env}"
+  name                = "${var.product}-${var.component}-${var.env}"
   deployment_mode     = "Incremental"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   count               = "1"
