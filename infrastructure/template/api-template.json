@@ -15,16 +15,10 @@
       "type": "string"
     },
     "claimDefinitionBody": {
-      "type": "string",
-      "metadata": {
-        "description": ""
-      }
+      "type": "string"
     },
     "testDefinitionBody": {
-      "type": "string",
-      "metadata": {
-        "description": ""
-      }
+      "type": "string"
     }
   },
   "variables": {
@@ -78,6 +72,11 @@
 	    "contentValue": "[parameters('claimDefinitionBody')]",
 	    "contentFormat": "swagger-json",
 	    "path": "claim",
+	    "authenticationSettings": {
+          "oAuth2": {
+            "authorizationServerId": "sidam"
+          }
+        },
 	    "protocols": [
 	      "HTTPS"
 	    ]
