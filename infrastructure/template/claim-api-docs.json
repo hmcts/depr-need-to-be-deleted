@@ -13,7 +13,7 @@
 			"url": "http://www.apache.org/licenses/LICENSE-2.0"
 		}
 	},
-	"host": "cmc-claim-store-aat.service.core-compute-aat.internal",
+	"host": "${testServiceUrl}",
 	"basePath": "/",
 	"tags": [
 

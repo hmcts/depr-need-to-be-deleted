@@ -8,16 +8,16 @@
         "description": "API Management service name"
       }
     },
-    "testServiceUrl": {
-      "type": "string"
-    },
-    "claimServiceUrl": {
-      "type": "string"
-    },
     "policy": {
       "type": "string"
     },
     "claimDefinitionBody": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "testDefinitionBody": {
       "type": "string",
       "metadata": {
         "description": ""
@@ -33,30 +33,13 @@
       "apiVersion": "2017-03-01",
       "type": "Microsoft.ApiManagement/service/apis",
       "name": "[concat(parameters('apiManagementServiceName'), '/test-api')]",
-      "properties": {
-        "displayName": "test-api",
-        "serviceUrl": "[parameters('testServiceUrl')]",
-        "path": "test",
+	  "properties": {
+	    "contentValue": "[parameters('testDefinitionBody')]",
+	    "contentFormat": "swagger-json",
         "protocols": [
           "HTTPS"
         ]
-      },
-      "resources": [
-        {
-          "apiVersion": "2017-03-01",
-          "type": "operations",
-          "name": "helloWorld",
-          "dependsOn": [
-            "[variables('testApiTypeName')]"
-          ],
-          "properties": {
-            "displayName": "Say hello",
-            "method": "GET",
-            "urlTemplate": "/hello",
-            "description": "Returns hello"
-          }
-        }
-      ]
+      }
     },
     {
       "apiVersion": "2017-03-01",
@@ -82,9 +65,6 @@
 	  "type": "Microsoft.ApiManagement/service/apis",
 	  "name": "[concat(parameters('apiManagementServiceName'), '/claim-api')]",
 	  "properties": {
-	    "displayName": "claim-api",
-	    "serviceUrl": "[parameters('claimServiceUrl')]",
-	    "path": "claim",
 	    "contentValue": "[parameters('claimDefinitionBody')]",
 	    "contentFormat": "swagger-json",
 	    "protocols": [

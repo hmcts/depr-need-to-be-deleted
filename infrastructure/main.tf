@@ -47,8 +47,18 @@ data "template_file" "api_template" {
   template = "${file("${path.module}/template/api-template.json")}"
 }
 
+data "template_file" "test_api_def" {
+  template = "${file("${path.module}/template/test-api-docs.json")}"
+  vars {
+    testServiceUrl = "http://rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
+  }
+}
+
 data "template_file" "claim_api_def" {
-  template = "${file("${path.module}/template/professional-api-docs.json")}"
+  template = "${file("${path.module}/template/claim-api-docs.json")}"
+  vars {
+    claimServiceUrl = "http://cmc-claim-store-${var.env}.service.core-compute-${var.env}.internal"
+  }
 }
 
 resource "azurerm_template_deployment" "api" {
@@ -60,10 +70,8 @@ resource "azurerm_template_deployment" "api" {
 
   parameters = {
     apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
-    testServiceUrl            = "http://rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
-    claimServiceUrl           = "http://cmc-claim-store-${var.env}.service.core-compute-${var.env}.internal"
-#   claimDefinitionBody       = "${data.template_file.claim_api_def.rendered}"
-    claimDefinitionBody       = "${file("template/professional-api-docs.json")}"
+    claimDefinitionBody       = "${data.template_file.claim_api_def.rendered}"
+    testDefinitionBody        = "${data.template_file.test_api_def.rendered}"
     policy                    = "${file("template/api-policy.xml")}"
   }
 }
