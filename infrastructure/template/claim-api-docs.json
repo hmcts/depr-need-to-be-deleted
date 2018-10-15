@@ -14,7 +14,7 @@
 		}
 	},
 	"host": "${claimServiceUrl}",
-	"basePath": "/",
+	"basePath": "/", 
 	"tags": [
 
 		{

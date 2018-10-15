@@ -14,7 +14,7 @@
 		}
 	},
 	"host": "${testServiceUrl}",
-	"basePath": "/",
+	"basePath": "/", 
 	"tags": [
 		{
 			"name": "root-controller",
