@@ -36,6 +36,7 @@
 	  "properties": {
 	    "contentValue": "[parameters('testDefinitionBody')]",
 	    "contentFormat": "swagger-json",
+	    "path": "test",
         "protocols": [
           "HTTPS"
         ]
@@ -67,6 +68,7 @@
 	  "properties": {
 	    "contentValue": "[parameters('claimDefinitionBody')]",
 	    "contentFormat": "swagger-json",
+	    "path": "claim",
 	    "protocols": [
 	      "HTTPS"
 	    ]
