@@ -50,14 +50,14 @@ data "template_file" "api_template" {
 data "template_file" "test_api_def" {
   template = "${file("${path.module}/template/test-api-docs.json")}"
   vars {
-    testServiceUrl = "http://rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
+    testServiceUrl = "rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
   }
 }
 
 data "template_file" "claim_api_def" {
   template = "${file("${path.module}/template/claim-api-docs.json")}"
   vars {
-    claimServiceUrl = "http://cmc-claim-store-${var.env}.service.core-compute-${var.env}.internal"
+    claimServiceUrl = "cmc-claim-store-${var.env}.service.core-compute-${var.env}.internal"
   }
 }
 
