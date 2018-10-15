@@ -73,6 +73,6 @@ resource "azurerm_template_deployment" "api" {
     claimDefinitionBody       = "${data.template_file.claim_api_def.rendered}"
     testDefinitionBody        = "${data.template_file.test_api_def.rendered}"
     policy                    = "${file("template/api-policy.xml")}"
-    testServiceUrl            = "rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
+    testServiceUrl            = "http://rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
   }
 }
