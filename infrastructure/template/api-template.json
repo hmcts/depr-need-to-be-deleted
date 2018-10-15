@@ -11,9 +11,6 @@
     "policy": {
       "type": "string"
     },
-    "testServiceUrl": {
-      "type": "string"
-    },
     "claimDefinitionBody": {
       "type": "string"
     },
@@ -34,7 +31,6 @@
 	    "contentValue": "[parameters('testDefinitionBody')]",
 	    "contentFormat": "swagger-json",
 	    "path": "test",
-	    "serviceUrl": "[parameters('testServiceUrl')]",
 	    "authenticationSettings": {
           "oAuth2": {
             "authorizationServerId": "sidam"

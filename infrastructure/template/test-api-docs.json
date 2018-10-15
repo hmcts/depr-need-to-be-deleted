@@ -13,7 +13,9 @@
 			"url": "http://www.apache.org/licenses/LICENSE-2.0"
 		}
 	},
-	"basePath": "/", 
+	"host": "${testServiceUrl}",
+	"basePath": "/",
+	"schemes": "http",
 	"tags": [
 		{
 			"name": "root-controller",
