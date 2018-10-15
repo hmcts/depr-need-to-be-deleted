@@ -48,7 +48,8 @@ data "template_file" "api_template" {
 }
 
 data "template_file" "claim_api_def" {
-  template = "${file("${path.module}/template/claim-api-docs.json")}"
+#  template = "${file("${path.module}/template/claim-api-docs.json")}"
+  template = "${file("${path.module}/template/professional-api-docs.json")}"
 }
 
 resource "azurerm_template_deployment" "api" {
