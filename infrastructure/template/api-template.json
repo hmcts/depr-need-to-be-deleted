@@ -26,8 +26,7 @@
   },
   "variables": {
     "testApiTypeName":  "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/test-api')]",
-    "claimApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/claim-api')]",
-    
+    "claimApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/claim-api')]"
   },
   "resources": [
     {
