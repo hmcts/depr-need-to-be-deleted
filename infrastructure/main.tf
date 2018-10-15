@@ -62,7 +62,8 @@ resource "azurerm_template_deployment" "api" {
     apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
     testServiceUrl            = "http://rpa-professional-api-${var.env}.service.core-compute-${var.env}.internal"
     claimServiceUrl           = "http://cmc-claim-store-${var.env}.service.core-compute-${var.env}.internal"
-    claimDefinitionBody       = "  ${data.template_file.claim_api_def.rendered}"
+#   claimDefinitionBody       = "${data.template_file.claim_api_def.rendered}"
+    claimDefinitionBody       = "${file("template/professional-api-docs.json")}"
     policy                    = "${file("template/api-policy.xml")}"
   }
 }
