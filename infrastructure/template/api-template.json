@@ -9,7 +9,10 @@
       }
     },
     "policy": {
-      "type": "string"
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
     },
     "claimDefinitionBody": {
       "type": "string"

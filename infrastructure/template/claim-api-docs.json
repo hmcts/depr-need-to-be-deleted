@@ -20,7 +20,7 @@
 
 		{
 			"name": "claim-controller",
-			"description": "Claim Controller"
+			"description": "Claim"
 		}
 	],
 	"paths": {
