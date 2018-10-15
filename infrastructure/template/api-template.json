@@ -11,6 +11,9 @@
     "policy": {
       "type": "string"
     },
+    "testServiceUrl": {
+      "type": "string"
+    },
     "claimDefinitionBody": {
       "type": "string",
       "metadata": {
