@@ -1,9 +1,9 @@
 {
 	"swagger": "2.0",
 	"info": {
-		"description": "Api Documentation",
+		"description": "Test API",
 		"version": "1.0",
-		"title": "Api Documentation",
+		"title": "Test API",
 		"termsOfService": "urn:tos",
 		"contact": {
 			

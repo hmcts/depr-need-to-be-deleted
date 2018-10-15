@@ -37,6 +37,12 @@
 	    "contentValue": "[parameters('testDefinitionBody')]",
 	    "contentFormat": "swagger-json",
 	    "path": "test",
+	    "serviceUrl": "[parameters('testServiceUrl')]",
+	    "authenticationSettings": {
+          "oAuth2": {
+            "authorizationServerId": "sidam"
+          }
+        },
         "protocols": [
           "HTTPS"
         ]
