@@ -62,7 +62,7 @@ data "template_file" "claim_api_def" {
 }
 
 resource "azurerm_template_deployment" "api" {
-  template_body       = "${data.template_file.api_template.rendered}"
+  template_body       = " ${data.template_file.api_template.rendered}"
   name                = "${var.product}-${var.component}-${var.env}"
   deployment_mode     = "Incremental"
   resource_group_name = "${azurerm_resource_group.rg.name}"
