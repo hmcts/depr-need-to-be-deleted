@@ -21,6 +21,9 @@ def channel = '#papi_build'
 
 List<LinkedHashMap<String, Object>> secrets = [
     // secret('s2s-token', 'S2S_TOKEN')
+    secret('subscription-id', 'SUBSCRIPTION_ID')
+    secret('resource-group-name', 'RESOURCE_GROUP_NAME')
+    secret('service-name', 'SERVICE_NAME')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -35,4 +38,12 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
+}
+
+after("deploy") {
+  subscriptionId = System.getenv("SUBSCRIPTION_ID")
+  resourceGroupName = System.getenv("RESOURCE_GROUP_NAME")
+  serviceName = System.getenv("SERVICE_NAME")
+  sh("curl -X 'DELETE' https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.ApiManagement/service/${serviceName}/subscriptions/starter?api-version=2018-06-01-preview")
+  sh("curl -X 'DELETE' https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.ApiManagement/service/${serviceName}/subscriptions/ultimate?api-version=2018-06-01-preview")
 }
