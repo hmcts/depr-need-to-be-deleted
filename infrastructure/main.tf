@@ -5,7 +5,7 @@ locals {
   app       = "professional-api"
   apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
-  shared_vault_name = "${var.shared_product_name}-${local.local_env}"
+  shared_vault_name = "rpa-professional-api-${local.local_env}"
 }
 
 resource "azurerm_resource_group" "rg" {
