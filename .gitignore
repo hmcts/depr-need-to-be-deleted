@@ -18,7 +18,4 @@
 *.iml
 *.ipr
 
-### Visual Studio Code ###
-*.code-workspace
-
 .DS_store
