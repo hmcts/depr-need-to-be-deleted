@@ -80,5 +80,5 @@ resource "azurerm_template_deployment" "api" {
 
 data "azurerm_key_vault" "key_vault" {
     name = "${local.shared_vault_name}"
-    resource_group_name = "${local.shared_vault_name}"
+    resource_group_name = "${azurerm_resource_group.rg.name}"
 }
