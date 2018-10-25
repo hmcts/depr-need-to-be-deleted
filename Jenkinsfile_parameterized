@@ -21,8 +21,8 @@ def channel = '#papi_build'
 
 List<LinkedHashMap<String, Object>> secrets = [
     // secret('s2s-token', 'S2S_TOKEN')
-    secret('subscription-id', 'SUBSCRIPTION_ID'),
-    secret('resource-group-name', 'RESOURCE_GROUP_NAME'),
+    secret('subscription-id', 'SUBSCRIPTION_ID')
+    secret('resource-group-name', 'RESOURCE_GROUP_NAME')
     secret('service-name', 'SERVICE_NAME')
 ]
 
