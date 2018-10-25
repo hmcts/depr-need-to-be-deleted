@@ -13,6 +13,7 @@ resource "azurerm_resource_group" "rg" {
   location = "${var.location}"
 }
 
+
 module "rpa-professional-api" {
   source              = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product             = "${var.product}-${var.component}"
@@ -34,13 +35,13 @@ module "rpa-professional-api" {
 
 module "local_key_vault" {
   source 					= "git@github.com:hmcts/cnp-module-key-vault?ref=master"
-  name            = "${local.shared_vault_name}"
-  product         = "${var.product}"
+  name                      = "${var.product}-papi-${var.env}"
+  product 					= "${var.product}-${var.component}"
   env 						= "${var.env}"
   tenant_id 				= "${var.tenant_id}"
   object_id 				= "${var.jenkins_AAD_objectId}"
   resource_group_name 		= "${azurerm_resource_group.rg.name}"
-  product_group_object_id 	= "5d9cd025-a293-4b97-a0e5-6f43efce02c0" // dcd-em
+  product_group_object_id 	= "5d9cd025-a293-4b97-a0e5-6f43efce02c0"
 }
 
 # region API template
