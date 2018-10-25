@@ -3,7 +3,7 @@ provider "azurerm" {}
 locals {
   ase_name  = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
   app       = "professional-api"
-  apiManagementServiceName  = "rpa-professional-api-${var.env}"
+  apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   shared_vault_name = "rpa-professional-api-${local.local_env}"
 }
@@ -78,3 +78,7 @@ resource "azurerm_template_deployment" "api" {
   }
 }
 
+data "azurerm_key_vault" "key_vault" {
+    name = "${local.shared_vault_name}"
+    resource_group_name = "${local.shared_vault_name}"
+}
