@@ -3,7 +3,6 @@ provider "azurerm" {}
 locals {
   ase_name  = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
   app       = "professional-api"
-  apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -24,7 +23,7 @@ module "rpa-professional-api" {
   common_tags         = "${var.common_tags}"
   asp_rg              = "rpa-${var.env}"
   asp_name            = "rpa-${var.env}"
-
+  
   app_settings = {
     LOGBACK_REQUIRE_ALERT_LEVEL = false
     LOGBACK_REQUIRE_ERROR_CODE  = false
@@ -37,12 +36,12 @@ module "local_key_vault" {
   product 					= "${var.product}-${var.component}"
   env 						= "${var.env}"
   tenant_id 				= "${var.tenant_id}"
-  object_id 				= "${var.jenkins_AAD_objectId}"
+  object_id 				= "${var.jenkins_AAD_objectId}"  
   resource_group_name 		= "${azurerm_resource_group.rg.name}"
   product_group_object_id 	= "5d9cd025-a293-4b97-a0e5-6f43efce02c0"
 }
 
-# region API template
+# region API template 
 
 data "template_file" "api_template" {
   template = "${file("${path.module}/template/api-template.json")}"
@@ -70,7 +69,7 @@ resource "azurerm_template_deployment" "api" {
   count               = "1"
 
   parameters = {
-    apiManagementServiceName  = "${local.apiManagementServiceName}"
+    apiManagementServiceName  = "rpa-professional-api-portal-${var.env}"
     claimDefinitionBody       = "${data.template_file.claim_api_def.rendered}"
     testDefinitionBody        = "${data.template_file.test_api_def.rendered}"
     policy                    = "${file("template/api-policy.xml")}"
