@@ -2,18 +2,14 @@ output "microserviceName" {
   value = "${var.component}"
 }
 
-output "subscriptionId" {
+output "subscription-id" {
   value = "${var.subscription}"
 }
 
-output "resourceGroupName" {
+output "resource-group-name" {
   value = "${azurerm_resource_group.rg.name}"
 }
 
-output "serviceName" {
+output "service-name" {
   value = "${local.apiManagementServiceName}"
-}
-
-output "vaultName" {
-  value = "${module.local_key_vault.key_vault_name}"
 }
