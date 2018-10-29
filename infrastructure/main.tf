@@ -20,7 +20,7 @@ module "rpa-professional-api" {
   location            = "${var.location}"
   env                 = "${var.env}"
   ilbIp               = "${var.ilbIp}"
-  resource_group_name = "${local.shared_product_name}-${var.local_env}"
+  resource_group_name = "${local.shared_product_name}-${local.local_env}"
   subscription        = "${var.subscription}"
   capacity            = "${var.capacity}"
   common_tags         = "${var.common_tags}"
