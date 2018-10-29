@@ -5,7 +5,8 @@ locals {
   app       = "professional-api"
   apiManagementServiceName  = "rpa-professional-api-portal-${local.local_env}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
-  shared_vault_name = "rpa-professional-api-${local.local_env}"
+  shared_product_name = "rpa-professional-api"
+  shared_vault_name = "${local.shared_product_name}-${local.local_env}"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -17,14 +18,14 @@ module "rpa-professional-api" {
   source              = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product             = "${var.product}-${var.component}"
   location            = "${var.location}"
-  env                 = "${local.local_env}"
+  env                 = "${var.env}"
   ilbIp               = "${var.ilbIp}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   subscription        = "${var.subscription}"
   capacity            = "${var.capacity}"
   common_tags         = "${var.common_tags}"
-  asp_rg              = "rpa-${local.local_env}"
-  asp_name            = "rpa-${local.local_env}"
+  asp_rg              = "${local.shared_product_name}-${var.env}"
+  asp_name            = "${local.shared_product_name}-${var.env}"
 
   app_settings = {
     LOGBACK_REQUIRE_ALERT_LEVEL = false
@@ -36,7 +37,7 @@ module "local_key_vault" {
   source 					= "git@github.com:hmcts/cnp-module-key-vault?ref=master"
   name            = "${local.shared_vault_name}"
   product         = "${var.product}"
-  env 						= "${local.local_env}"
+  env 						= "${var.env}"
   tenant_id 				= "${var.tenant_id}"
   object_id 				= "${var.jenkins_AAD_objectId}"
   resource_group_name 		= "${azurerm_resource_group.rg.name}"
