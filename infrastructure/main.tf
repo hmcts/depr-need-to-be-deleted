@@ -10,7 +10,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.product}-${var.component}-${local.local_env}"
+  name     = "${local.shared_product_name}-${local.local_env}"
   location = "${var.location}"
 }
 
