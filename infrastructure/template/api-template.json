@@ -40,7 +40,7 @@
           }
         },
         "protocols": [
-          "HTTPS"
+          "https"
         ]
       }
     },
@@ -77,7 +77,7 @@
           }
         },
 	    "protocols": [
-	      "HTTPS"
+	      "https"
 	    ]
 	  }
 	},
