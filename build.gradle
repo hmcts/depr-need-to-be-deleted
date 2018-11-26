@@ -44,7 +44,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("io.springfox:springfox-swagger2:${versions.springfoxSwagger}")
     compile("io.springfox:springfox-swagger-ui:${versions.springfoxSwagger}")
-    compile("uk.gov.hmcts.reform:java-logging:${versions.reformLogging}")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
