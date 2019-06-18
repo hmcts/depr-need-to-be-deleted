@@ -6,4 +6,22 @@
     <gav regex="true">^com\.google\.guava:guava:.*$</gav>
     <cpe>cpe:/a:google:guava</cpe>
   </suppress>
+  
+  <suppress>
+    <notes><![CDATA[
+   file name: spring-security-crypto-4.2.9.RELEASE.jar
+   ]]></notes>
+    <gav regex="true">^org\.springframework\.security:spring-security-crypto:.*$</gav>
+    <cpe>cpe:/a:pivotal_software:spring_security</cpe>
+    <cve>CVE-2018-1258</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+   file name: jackson-databind-2.9.8.jar fix in 2.9.9 but not yet in springboot
+   ]]></notes>
+    <gav regex="true">com.fasterxml.jackson.core:jackson-databind:2.9.8</gav>
+    <cpe>cpe:/a:fasterxml:jackson:2.9.8, cpe:/a:fasterxml:jackson-databind:2.9.8, com.fasterxml.jackson.core:jackson-databind:2.9.8</cpe>
+    <cve>CVE-2019-12086</cve>
+  </suppress>
 </suppressions>
