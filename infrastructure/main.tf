@@ -5,6 +5,11 @@ locals {
   app       = "professional-api"
 }
 
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.product}-${var.component}-${var.env}"
+  location = "${var.location}"
+}
+
 module "rpa-professional-api" {
   source              = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product             = "${var.product}-${var.component}"
@@ -12,6 +17,7 @@ module "rpa-professional-api" {
   env                 = "${var.env}"
   ilbIp               = "${var.ilbIp}"
   subscription        = "${var.subscription}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
   capacity            = "${var.capacity}"
   common_tags         = "${var.common_tags}"
   asp_rg              = "rpa-${var.env}"
