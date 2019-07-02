@@ -23,7 +23,8 @@
   },
   "variables": {
     "testApiTypeName":  "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/test-api')]",
-    "claimApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/claim-api')]"
+    "claimApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/claim-api')]",
+    "claimStoreApiTypeName": "[concat('Microsoft.ApiManagement/service/', parameters('apiManagementServiceName'), '/apis/claim-store-api')]"
   },
   "resources": [
     {
@@ -61,6 +62,43 @@
 	  "apiVersion": "2018-01-01",
 	   "dependsOn": [
         "[variables('testApiTypeName')]"
+      ]
+	},
+	{
+	  "apiVersion": "2018-01-01",
+	  "type": "Microsoft.ApiManagement/service/apis",
+	  "name": "[concat(parameters('apiManagementServiceName'), '/claim-store-api')]",
+	  "properties": {
+	    "contentValue": "[parameters('claimStoreDefinitionBody')]",
+	    "contentFormat": "swagger-json",
+	    "path": "claimstore",
+	    "authenticationSettings": {
+          "oAuth2": {
+            "authorizationServerId": "sidam"
+          }
+        },
+	    "protocols": [
+	      "HTTPS"
+	    ]
+	  }
+	},
+    {
+      "apiVersion": "2018-01-01",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "name": "[concat(parameters('apiManagementServiceName'), '/claim-store-api/policy')]",
+      "dependsOn": [
+        "[variables('claimStoreApiTypeName')]"
+      ],
+      "properties": {
+        "policyContent": "[parameters('policy')]"
+      }
+    },
+    {
+	  "type": "Microsoft.ApiManagement/service/products/apis",
+	  "name": "[concat(parameters('apiManagementServiceName'), '/public/claim-store-api')]",
+	  "apiVersion": "2018-01-01",
+	   "dependsOn": [
+        "[variables('claimStoreApiTypeName')]"
       ]
 	},
 	{

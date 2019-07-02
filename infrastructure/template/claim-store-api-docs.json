@@ -1,0 +1,1927 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "Claim API",
+		"version": "1.0",
+		"title": "Claim API",
+		"termsOfService": "urn:tos",
+		"contact": {
+			
+		},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0"
+		}
+	},
+	"host": "${claimServiceUrl}",
+	"basePath": "/", 
+	"schemes": ["http"],
+	"tags": [
+
+		{
+			"name": "claim-controller",
+			"description": "Claim"
+		}
+	],
+	"paths": {
+		"/claims/{claimReference}": {
+			"get": {
+				"tags": [
+					"claim-controller"
+				],
+				"summary": "Fetch claim for given claim reference",
+				"operationId": "getByClaimReferenceUsingGET_1",
+				"produces": [
+					"application/json;charset=UTF-8"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "claimReference",
+						"in": "path",
+						"description": "claimReference",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/Claim"
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"deprecated": false
+			}
+		},
+		"/claims/{claimReference}/metadata": {
+			"get": {
+				"tags": [
+					"case-metadata-controller"
+				],
+				"summary": "Fetch claim metadata for given claim reference",
+				"operationId": "getByClaimReferenceUsingGET",
+				"produces": [
+					"application/json;charset=UTF-8"
+				],
+				"parameters": [
+					{
+						"name": "claimReference",
+						"in": "path",
+						"description": "claimReference",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/CaseMetadata"
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"deprecated": false
+			}
+		},
+		"/claims/{submitterId}": {
+			"post": {
+				"tags": [
+					"claim-controller"
+				],
+				"summary": "Creates a new claim",
+				"operationId": "saveUsingPOST",
+				"consumes": [
+					"application/json;charset=UTF-8"
+				],
+				"produces": [
+					"application/json;charset=UTF-8"
+				],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "Features",
+						"in": "header",
+						"description": "Features",
+						"required": false,
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "body",
+						"name": "claimData",
+						"description": "claimData",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ClaimData"
+						}
+					},
+					{
+						"name": "submitterId",
+						"in": "path",
+						"description": "submitterId",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/Claim"
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"deprecated": false
+			}
+		}
+	},
+	"definitions": {
+		"Address": {
+			"type": "object",
+			"properties": {
+				"city": {
+					"type": "string"
+				},
+				"line1": {
+					"type": "string"
+				},
+				"line2": {
+					"type": "string"
+				},
+				"line3": {
+					"type": "string"
+				},
+				"postcode": {
+					"type": "string"
+				}
+			},
+			"title": "Address"
+		},
+		"Amount": {
+			"type": "object",
+			"discriminator": "type",
+			"title": "Amount"
+		},
+		"AmountBreakDown": {
+			"title": "AmountBreakDown",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Amount"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"rows": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/AmountRow"
+							}
+						}
+					},
+					"title": "AmountBreakDown"
+				}
+			]
+		},
+		"AmountRange": {
+			"title": "AmountRange",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Amount"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"higherValue": {
+							"type": "number"
+						},
+						"lowerValue": {
+							"$ref": "#/definitions/Optional«bigdecimal»"
+						}
+					},
+					"title": "AmountRange"
+				}
+			]
+		},
+		"ByteArrayResource": {
+			"type": "object",
+			"properties": {
+				"byteArray": {
+					"type": "string",
+					"format": "byte"
+				},
+				"description": {
+					"type": "string"
+				},
+				"file": {
+					"$ref": "#/definitions/File"
+				},
+				"filename": {
+					"type": "string"
+				},
+				"inputStream": {
+					"$ref": "#/definitions/InputStream"
+				},
+				"open": {
+					"type": "boolean"
+				},
+				"readable": {
+					"type": "boolean"
+				},
+				"uri": {
+					"$ref": "#/definitions/URI"
+				},
+				"url": {
+					"$ref": "#/definitions/URL"
+				}
+			},
+			"title": "ByteArrayResource"
+		},
+		"CallbackRequest": {
+			"type": "object",
+			"properties": {
+				"case_details": {
+					"type": "object"
+				},
+				"case_details_before": {
+					"type": "object"
+				},
+				"event_id": {
+					"type": "string"
+				}
+			},
+			"title": "CallbackRequest"
+		},
+		"CallbackResponse": {
+			"type": "object",
+			"title": "CallbackResponse"
+		},
+		"CaseMetadata": {
+			"type": "object",
+			"properties": {
+				"countyCourtJudgmentRequestedAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"defendantId": {
+					"type": "string"
+				},
+				"externalId": {
+					"type": "string"
+				},
+				"id": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"issuedOn": {
+					"type": "string",
+					"format": "date"
+				},
+				"moreTimeRequested": {
+					"type": "boolean"
+				},
+				"paymentReference": {
+					"type": "string"
+				},
+				"referenceNumber": {
+					"type": "string"
+				},
+				"respondedAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"responseDeadline": {
+					"type": "string",
+					"format": "date"
+				},
+				"sealedClaimDocument": {
+					"$ref": "#/definitions/URI"
+				},
+				"settlementReachedAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"submitterId": {
+					"type": "string"
+				}
+			},
+			"title": "CaseMetadata"
+		},
+		"CaseReference": {
+			"type": "object",
+			"properties": {
+				"case_reference": {
+					"type": "string"
+				}
+			},
+			"title": "CaseReference"
+		},
+		"Claim": {
+			"type": "object",
+			"properties": {
+				"amountWithInterest": {
+					"$ref": "#/definitions/Optional«bigdecimal»"
+				},
+				"claim": {
+					"$ref": "#/definitions/ClaimData"
+				},
+				"claimantRespondedAt": {
+					"$ref": "#/definitions/Optional«LocalDateTime»"
+				},
+				"claimantResponse": {
+					"$ref": "#/definitions/Optional«ClaimantResponse»"
+				},
+				"countyCourtJudgment": {
+					"$ref": "#/definitions/CountyCourtJudgment"
+				},
+				"countyCourtJudgmentIssuedAt": {
+					"$ref": "#/definitions/Optional«LocalDateTime»"
+				},
+				"countyCourtJudgmentRequestedAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"defendantEmail": {
+					"type": "string"
+				},
+				"defendantId": {
+					"type": "string"
+				},
+				"directionsQuestionnaireDeadline": {
+					"type": "string",
+					"format": "date"
+				},
+				"externalId": {
+					"type": "string"
+				},
+				"features": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"id": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"issuedOn": {
+					"type": "string",
+					"format": "date"
+				},
+				"letterHolderId": {
+					"type": "string"
+				},
+				"moreTimeRequested": {
+					"type": "boolean"
+				},
+				"referenceNumber": {
+					"type": "string"
+				},
+				"respondedAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"response": {
+					"$ref": "#/definitions/Optional«Response»"
+				},
+				"responseDeadline": {
+					"type": "string",
+					"format": "date"
+				},
+				"sealedClaimDocument": {
+					"$ref": "#/definitions/Optional«URI»"
+				},
+				"serviceDate": {
+					"type": "string",
+					"format": "date"
+				},
+				"settlement": {
+					"$ref": "#/definitions/Optional«Settlement»"
+				},
+				"settlementReachedAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"submitterEmail": {
+					"type": "string"
+				},
+				"submitterId": {
+					"type": "string"
+				},
+				"totalAmountTillDateOfIssue": {
+					"$ref": "#/definitions/Optional«bigdecimal»"
+				},
+				"totalAmountTillToday": {
+					"$ref": "#/definitions/Optional«bigdecimal»"
+				},
+				"totalInterest": {
+					"$ref": "#/definitions/Optional«bigdecimal»"
+				}
+			},
+			"title": "Claim"
+		},
+		"ClaimData": {
+			"type": "object",
+			"properties": {
+				"amount": {
+					"$ref": "#/definitions/Amount"
+				},
+				"claimants": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Party"
+					}
+				},
+				"defendants": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/TheirDetails"
+					}
+				},
+				"evidence": {
+					"$ref": "#/definitions/Optional«Evidence»"
+				},
+				"externalId": {
+					"type": "string",
+					"format": "uuid"
+				},
+				"externalReferenceNumber": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"feeAccountNumber": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"feeAmountInPennies": {
+					"type": "integer"
+				},
+				"feeCode": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"housingDisrepair": {
+					"$ref": "#/definitions/Optional«HousingDisrepair»"
+				},
+				"interest": {
+					"$ref": "#/definitions/Interest"
+				},
+				"payment": {
+					"$ref": "#/definitions/Payment"
+				},
+				"personalInjury": {
+					"$ref": "#/definitions/Optional«PersonalInjury»"
+				},
+				"preferredCourt": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"reason": {
+					"type": "string"
+				},
+				"statementOfTruth": {
+					"$ref": "#/definitions/Optional«StatementOfTruth»"
+				},
+				"timeline": {
+					"$ref": "#/definitions/Optional«Timeline»"
+				}
+			},
+			"title": "ClaimData"
+		},
+		"ClaimantResponse": {
+			"type": "object",
+			"discriminator": "type",
+			"properties": {
+				"amountPaid": {
+					"$ref": "#/definitions/Optional«bigdecimal»"
+				}
+			},
+			"title": "ClaimantResponse"
+		},
+		"Company": {
+			"title": "Company",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Party"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"contactPerson": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"correspondenceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						},
+						"mobilePhone": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						}
+					},
+					"title": "Company"
+				}
+			]
+		},
+		"CompanyDetails": {
+			"title": "CompanyDetails",
+			"allOf": [
+				{
+					"$ref": "#/definitions/TheirDetails"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"contactPerson": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"email": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						},
+						"serviceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						}
+					},
+					"title": "CompanyDetails"
+				}
+			]
+		},
+		"ContactDetails": {
+			"type": "object",
+			"properties": {
+				"dxAddress": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"email": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"phone": {
+					"$ref": "#/definitions/Optional«string»"
+				}
+			},
+			"title": "ContactDetails"
+		},
+		"CountyCourtJudgment": {
+			"type": "object",
+			"properties": {
+				"defendantDateOfBirth": {
+					"$ref": "#/definitions/Optional«LocalDate»"
+				},
+				"paidAmount": {
+					"$ref": "#/definitions/Optional«bigdecimal»"
+				},
+				"payBySetDate": {
+					"$ref": "#/definitions/Optional«LocalDate»"
+				},
+				"paymentOption": {
+					"type": "string",
+					"enum": [
+						"IMMEDIATELY",
+						"BY_SPECIFIED_DATE",
+						"INSTALMENTS"
+					]
+				},
+				"repaymentPlan": {
+					"$ref": "#/definitions/Optional«RepaymentPlan»"
+				},
+				"statementOfTruth": {
+					"$ref": "#/definitions/Optional«StatementOfTruth»"
+				}
+			},
+			"title": "CountyCourtJudgment"
+		},
+		"DefendantLinkStatus": {
+			"type": "object",
+			"properties": {
+				"linked": {
+					"type": "boolean"
+				}
+			},
+			"title": "DefendantLinkStatus"
+		},
+		"Era": {
+			"type": "object",
+			"properties": {
+				"value": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "Era"
+		},
+		"Evidence": {
+			"type": "object",
+			"properties": {
+				"rows": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/EvidenceRow"
+					}
+				}
+			},
+			"title": "Evidence"
+		},
+		"EvidenceRow": {
+			"type": "object",
+			"properties": {
+				"description": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"CONTRACTS_AND_AGREEMENTS",
+						"EXPERT_WITNESS",
+						"CORRESPONDENCE",
+						"PHOTO",
+						"RECEIPTS",
+						"STATEMENT_OF_ACCOUNT",
+						"OTHER"
+					]
+				}
+			},
+			"title": "EvidenceRow"
+		},
+		"File": {
+			"type": "object",
+			"properties": {
+				"absolute": {
+					"type": "boolean"
+				},
+				"absoluteFile": {
+					"$ref": "#/definitions/File"
+				},
+				"absolutePath": {
+					"type": "string"
+				},
+				"canonicalFile": {
+					"$ref": "#/definitions/File"
+				},
+				"canonicalPath": {
+					"type": "string"
+				},
+				"directory": {
+					"type": "boolean"
+				},
+				"file": {
+					"type": "boolean"
+				},
+				"freeSpace": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"hidden": {
+					"type": "boolean"
+				},
+				"name": {
+					"type": "string"
+				},
+				"parent": {
+					"type": "string"
+				},
+				"parentFile": {
+					"$ref": "#/definitions/File"
+				},
+				"path": {
+					"type": "string"
+				},
+				"totalSpace": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"usableSpace": {
+					"type": "integer",
+					"format": "int64"
+				}
+			},
+			"title": "File"
+		},
+		"FullAdmissionResponse": {
+			"title": "FullAdmissionResponse",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Response"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"defendant": {
+							"$ref": "#/definitions/Party"
+						},
+						"freeMediation": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"paymentIntention": {
+							"$ref": "#/definitions/PaymentIntention"
+						},
+						"responseType": {
+							"type": "string",
+							"enum": [
+								"FULL_DEFENCE",
+								"FULL_ADMISSION",
+								"PART_ADMISSION"
+							]
+						},
+						"statementOfMeans": {
+							"$ref": "#/definitions/Optional«StatementOfMeans»"
+						},
+						"statementOfTruth": {
+							"$ref": "#/definitions/Optional«StatementOfTruth»"
+						}
+					},
+					"title": "FullAdmissionResponse"
+				}
+			]
+		},
+		"FullDefenceResponse": {
+			"title": "FullDefenceResponse",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Response"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"defence": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"defenceType": {
+							"type": "string",
+							"enum": [
+								"DISPUTE",
+								"ALREADY_PAID"
+							]
+						},
+						"defendant": {
+							"$ref": "#/definitions/Party"
+						},
+						"evidence": {
+							"$ref": "#/definitions/Optional«DefendantEvidence»"
+						},
+						"freeMediation": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"paymentDeclaration": {
+							"$ref": "#/definitions/Optional«PaymentDeclaration»"
+						},
+						"responseType": {
+							"type": "string",
+							"enum": [
+								"FULL_DEFENCE",
+								"FULL_ADMISSION",
+								"PART_ADMISSION"
+							]
+						},
+						"statementOfTruth": {
+							"$ref": "#/definitions/Optional«StatementOfTruth»"
+						},
+						"timeline": {
+							"$ref": "#/definitions/Optional«DefendantTimeline»"
+						}
+					},
+					"title": "FullDefenceResponse"
+				}
+			]
+		},
+		"HousingDisrepair": {
+			"type": "object",
+			"properties": {
+				"costOfRepairsDamages": {
+					"type": "string",
+					"enum": [
+						"MORE_THAN_THOUSAND_POUNDS",
+						"THOUSAND_POUNDS_OR_LESS"
+					]
+				},
+				"otherDamages": {
+					"$ref": "#/definitions/Optional«string»"
+				}
+			},
+			"title": "HousingDisrepair"
+		},
+		"Individual": {
+			"title": "Individual",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Party"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"chronology": {
+							"$ref": "#/definitions/IsoChronology"
+						},
+						"correspondenceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						},
+						"dayOfMonth": {
+							"type": "integer",
+							"format": "int32"
+						},
+						"dayOfWeek": {
+							"type": "string",
+							"enum": [
+								"MONDAY",
+								"TUESDAY",
+								"WEDNESDAY",
+								"THURSDAY",
+								"FRIDAY",
+								"SATURDAY",
+								"SUNDAY"
+							]
+						},
+						"dayOfYear": {
+							"type": "integer",
+							"format": "int32"
+						},
+						"era": {
+							"$ref": "#/definitions/Era"
+						},
+						"leapYear": {
+							"type": "boolean"
+						},
+						"mobilePhone": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"month": {
+							"type": "string",
+							"enum": [
+								"JANUARY",
+								"FEBRUARY",
+								"MARCH",
+								"APRIL",
+								"MAY",
+								"JUNE",
+								"JULY",
+								"AUGUST",
+								"SEPTEMBER",
+								"OCTOBER",
+								"NOVEMBER",
+								"DECEMBER"
+							]
+						},
+						"monthValue": {
+							"type": "integer",
+							"format": "int32"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						},
+						"year": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					"title": "Individual"
+				}
+			]
+		},
+		"IndividualDetails": {
+			"title": "IndividualDetails",
+			"allOf": [
+				{
+					"$ref": "#/definitions/TheirDetails"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"dateOfBirth": {
+							"$ref": "#/definitions/Optional«LocalDate»"
+						},
+						"email": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						},
+						"serviceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						}
+					},
+					"title": "IndividualDetails"
+				}
+			]
+		},
+		"InputStream": {
+			"type": "object",
+			"title": "InputStream"
+		},
+		"Interest": {
+			"type": "object",
+			"properties": {
+				"interestBreakdown": {
+					"$ref": "#/definitions/InterestBreakdown"
+				},
+				"interestDate": {
+					"$ref": "#/definitions/InterestDate"
+				},
+				"rate": {
+					"type": "number"
+				},
+				"reason": {
+					"type": "string"
+				},
+				"specificDailyAmount": {
+					"$ref": "#/definitions/Optional«bigdecimal»"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"STANDARD",
+						"DIFFERENT",
+						"BREAKDOWN",
+						"NO_INTEREST"
+					]
+				}
+			},
+			"title": "Interest"
+		},
+		"InterestAmount": {
+			"type": "object",
+			"properties": {
+				"amount": {
+					"type": "number"
+				}
+			},
+			"title": "InterestAmount"
+		},
+		"InterestBreakdown": {
+			"type": "object",
+			"properties": {
+				"explanation": {
+					"type": "string"
+				},
+				"totalAmount": {
+					"type": "number"
+				}
+			},
+			"title": "InterestBreakdown"
+		},
+		"InterestDate": {
+			"type": "object",
+			"properties": {
+				"chronology": {
+					"$ref": "#/definitions/IsoChronology"
+				},
+				"dayOfMonth": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"dayOfWeek": {
+					"type": "string",
+					"enum": [
+						"MONDAY",
+						"TUESDAY",
+						"WEDNESDAY",
+						"THURSDAY",
+						"FRIDAY",
+						"SATURDAY",
+						"SUNDAY"
+					]
+				},
+				"dayOfYear": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"endDateType": {
+					"type": "string",
+					"enum": [
+						"SETTLED_OR_JUDGMENT",
+						"SUBMISSION"
+					]
+				},
+				"era": {
+					"$ref": "#/definitions/Era"
+				},
+				"leapYear": {
+					"type": "boolean"
+				},
+				"month": {
+					"type": "string",
+					"enum": [
+						"JANUARY",
+						"FEBRUARY",
+						"MARCH",
+						"APRIL",
+						"MAY",
+						"JUNE",
+						"JULY",
+						"AUGUST",
+						"SEPTEMBER",
+						"OCTOBER",
+						"NOVEMBER",
+						"DECEMBER"
+					]
+				},
+				"monthValue": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"reason": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"CUSTOM",
+						"SUBMISSION"
+					]
+				},
+				"year": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "InterestDate"
+		},
+		"IsoChronology": {
+			"type": "object",
+			"properties": {
+				"calendarType": {
+					"type": "string"
+				},
+				"id": {
+					"type": "string"
+				}
+			},
+			"title": "IsoChronology"
+		},
+		"NotKnown": {
+			"title": "NotKnown",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Amount"
+				},
+				{
+					"type": "object",
+					"title": "NotKnown"
+				}
+			]
+		},
+		"Offer": {
+			"type": "object",
+			"properties": {
+				"completionDate": {
+					"type": "string",
+					"format": "date"
+				},
+				"content": {
+					"type": "string"
+				},
+				"paymentIntention": {
+					"$ref": "#/definitions/Optional«PaymentIntention»"
+				}
+			},
+			"title": "Offer"
+		},
+		"Optional«Address»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«Address»"
+		},
+		"Optional«ClaimantResponse»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«ClaimantResponse»"
+		},
+		"Optional«ContactDetails»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«ContactDetails»"
+		},
+		"Optional«Evidence»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«Evidence»"
+		},
+		"Optional«HousingDisrepair»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«HousingDisrepair»"
+		},
+		"Optional«LocalDateTime»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«LocalDateTime»"
+		},
+		"Optional«LocalDate»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«LocalDate»"
+		},
+		"Optional«Offer»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«Offer»"
+		},
+		"Optional«PaymentIntention»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«PaymentIntention»"
+		},
+		"Optional«PersonalInjury»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«PersonalInjury»"
+		},
+		"Optional«RepaymentPlan»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«RepaymentPlan»"
+		},
+		"Optional«Representative»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«Representative»"
+		},
+		"Optional«Response»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«Response»"
+		},
+		"Optional«Settlement»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«Settlement»"
+		},
+		"Optional«StatementOfTruth»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«StatementOfTruth»"
+		},
+		"Optional«Timeline»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«Timeline»"
+		},
+		"Optional«URI»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«URI»"
+		},
+		"Optional«bigdecimal»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«bigdecimal»"
+		},
+		"Optional«string»": {
+			"type": "object",
+			"properties": {
+				"present": {
+					"type": "boolean"
+				}
+			},
+			"title": "Optional«string»"
+		},
+		"Organisation": {
+			"title": "Organisation",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Party"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"companiesHouseNumber": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"contactPerson": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"correspondenceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						},
+						"mobilePhone": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						}
+					},
+					"title": "Organisation"
+				}
+			]
+		},
+		"OrganisationDetails": {
+			"title": "OrganisationDetails",
+			"allOf": [
+				{
+					"$ref": "#/definitions/TheirDetails"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"companiesHouseNumber": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"contactPerson": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"email": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						},
+						"serviceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						}
+					},
+					"title": "OrganisationDetails"
+				}
+			]
+		},
+		"PartAdmissionResponse": {
+			"title": "PartAdmissionResponse",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Response"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"amount": {
+							"type": "number"
+						},
+						"defence": {
+							"type": "string"
+						},
+						"defendant": {
+							"$ref": "#/definitions/Party"
+						},
+						"evidence": {
+							"$ref": "#/definitions/Optional«DefendantEvidence»"
+						},
+						"freeMediation": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"paymentDeclaration": {
+							"$ref": "#/definitions/Optional«PaymentDeclaration»"
+						},
+						"paymentIntention": {
+							"$ref": "#/definitions/Optional«PaymentIntention»"
+						},
+						"responseType": {
+							"type": "string",
+							"enum": [
+								"FULL_DEFENCE",
+								"FULL_ADMISSION",
+								"PART_ADMISSION"
+							]
+						},
+						"statementOfMeans": {
+							"$ref": "#/definitions/Optional«StatementOfMeans»"
+						},
+						"statementOfTruth": {
+							"$ref": "#/definitions/Optional«StatementOfTruth»"
+						},
+						"timeline": {
+							"$ref": "#/definitions/Optional«DefendantTimeline»"
+						}
+					},
+					"title": "PartAdmissionResponse"
+				}
+			]
+		},
+		"Party": {
+			"type": "object",
+			"discriminator": "type",
+			"properties": {
+				"address": {
+					"$ref": "#/definitions/Address"
+				},
+				"correspondenceAddress": {
+					"$ref": "#/definitions/Optional«Address»"
+				},
+				"mobilePhone": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"name": {
+					"type": "string"
+				},
+				"representative": {
+					"$ref": "#/definitions/Optional«Representative»"
+				}
+			},
+			"title": "Party"
+		},
+		"PartyStatement": {
+			"type": "object",
+			"properties": {
+				"madeBy": {
+					"type": "string",
+					"enum": [
+						"CLAIMANT",
+						"DEFENDANT",
+						"COURT"
+					]
+				},
+				"offer": {
+					"$ref": "#/definitions/Optional«Offer»"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"OFFER",
+						"ACCEPTATION",
+						"REJECTION",
+						"COUNTERSIGNATURE"
+					]
+				}
+			},
+			"title": "PartyStatement"
+		},
+		"Payment": {
+			"type": "object",
+			"properties": {
+				"amount": {
+					"type": "number"
+				},
+				"date_created": {
+					"type": "string"
+				},
+				"id": {
+					"type": "string"
+				},
+				"reference": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string"
+				}
+			},
+			"title": "Payment"
+		},
+		"PaymentIntention": {
+			"type": "object",
+			"properties": {
+				"paymentDate": {
+					"$ref": "#/definitions/Optional«LocalDate»"
+				},
+				"paymentOption": {
+					"type": "string",
+					"enum": [
+						"IMMEDIATELY",
+						"BY_SPECIFIED_DATE",
+						"INSTALMENTS"
+					]
+				},
+				"repaymentPlan": {
+					"$ref": "#/definitions/Optional«RepaymentPlan»"
+				}
+			},
+			"title": "PaymentIntention"
+		},
+		"PersonalInjury": {
+			"type": "object",
+			"properties": {
+				"generalDamages": {
+					"type": "string",
+					"enum": [
+						"MORE_THAN_THOUSAND_POUNDS",
+						"THOUSAND_POUNDS_OR_LESS"
+					]
+				}
+			},
+			"title": "PersonalInjury"
+		},
+		"RepaymentPlan": {
+			"type": "object",
+			"properties": {
+				"completionDate": {
+					"type": "string",
+					"format": "date"
+				},
+				"firstPaymentDate": {
+					"type": "string",
+					"format": "date"
+				},
+				"instalmentAmount": {
+					"type": "number"
+				},
+				"paymentLength": {
+					"type": "string"
+				},
+				"paymentSchedule": {
+					"type": "string",
+					"enum": [
+						"EACH_WEEK",
+						"EVERY_TWO_WEEKS",
+						"EVERY_MONTH"
+					]
+				}
+			},
+			"title": "RepaymentPlan"
+		},
+		"Representative": {
+			"type": "object",
+			"properties": {
+				"organisationAddress": {
+					"$ref": "#/definitions/Address"
+				},
+				"organisationContactDetails": {
+					"$ref": "#/definitions/Optional«ContactDetails»"
+				},
+				"organisationName": {
+					"type": "string"
+				}
+			},
+			"title": "Representative"
+		},
+		"Response": {
+			"type": "object",
+			"discriminator": "responseType",
+			"properties": {
+				"defendant": {
+					"$ref": "#/definitions/Party"
+				},
+				"freeMediation": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"responseType": {
+					"type": "string",
+					"enum": [
+						"FULL_DEFENCE",
+						"FULL_ADMISSION",
+						"PART_ADMISSION"
+					]
+				},
+				"statementOfTruth": {
+					"$ref": "#/definitions/Optional«StatementOfTruth»"
+				}
+			},
+			"title": "Response"
+		},
+		"ResponseAcceptation": {
+			"title": "ResponseAcceptation",
+			"allOf": [
+				{
+					"$ref": "#/definitions/ClaimantResponse"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"amountPaid": {
+							"$ref": "#/definitions/Optional«bigdecimal»"
+						},
+						"claimantPaymentIntention": {
+							"$ref": "#/definitions/Optional«PaymentIntention»"
+						},
+						"courtDetermination": {
+							"$ref": "#/definitions/Optional«CourtDetermination»"
+						},
+						"decisionType": {
+							"type": "string",
+							"enum": [
+								"CLAIMANT",
+								"DEFENDANT",
+								"COURT"
+							]
+						},
+						"formaliseOption": {
+							"type": "string",
+							"enum": [
+								"CCJ",
+								"SETTLEMENT",
+								"REFER_TO_JUDGE"
+							]
+						}
+					},
+					"title": "ResponseAcceptation"
+				}
+			]
+		},
+		"ResponseRejection": {
+			"title": "ResponseRejection",
+			"allOf": [
+				{
+					"$ref": "#/definitions/ClaimantResponse"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"amountPaid": {
+							"$ref": "#/definitions/Optional«bigdecimal»"
+						},
+						"freeMediation": {
+							"$ref": "#/definitions/Optional«boolean»"
+						},
+						"reason": {
+							"$ref": "#/definitions/Optional«string»"
+						}
+					},
+					"title": "ResponseRejection"
+				}
+			]
+		},
+		"Settlement": {
+			"type": "object",
+			"properties": {
+				"partyStatements": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/PartyStatement"
+					}
+				}
+			},
+			"title": "Settlement"
+		},
+		"SoleTrader": {
+			"title": "SoleTrader",
+			"allOf": [
+				{
+					"$ref": "#/definitions/Party"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"businessName": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"correspondenceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						},
+						"mobilePhone": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						},
+						"title": {
+							"$ref": "#/definitions/Optional«string»"
+						}
+					},
+					"title": "SoleTrader"
+				}
+			]
+		},
+		"SoleTraderDetails": {
+			"title": "SoleTraderDetails",
+			"allOf": [
+				{
+					"$ref": "#/definitions/TheirDetails"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"address": {
+							"$ref": "#/definitions/Address"
+						},
+						"businessName": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"email": {
+							"$ref": "#/definitions/Optional«string»"
+						},
+						"name": {
+							"type": "string"
+						},
+						"representative": {
+							"$ref": "#/definitions/Optional«Representative»"
+						},
+						"serviceAddress": {
+							"$ref": "#/definitions/Optional«Address»"
+						},
+						"title": {
+							"$ref": "#/definitions/Optional«string»"
+						}
+					},
+					"title": "SoleTraderDetails"
+				}
+			]
+		},
+		"StatementOfTruth": {
+			"type": "object",
+			"properties": {
+				"signerName": {
+					"type": "string"
+				},
+				"signerRole": {
+					"type": "string"
+				}
+			},
+			"title": "StatementOfTruth"
+		},
+		"TheirDetails": {
+			"type": "object",
+			"discriminator": "type",
+			"properties": {
+				"address": {
+					"$ref": "#/definitions/Address"
+				},
+				"email": {
+					"$ref": "#/definitions/Optional«string»"
+				},
+				"name": {
+					"type": "string"
+				},
+				"representative": {
+					"$ref": "#/definitions/Optional«Representative»"
+				},
+				"serviceAddress": {
+					"$ref": "#/definitions/Optional«Address»"
+				}
+			},
+			"title": "TheirDetails"
+		},
+		"Timeline": {
+			"type": "object",
+			"properties": {
+				"rows": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/TimelineEvent"
+					}
+				}
+			},
+			"title": "Timeline"
+		},
+		"TimelineEvent": {
+			"type": "object",
+			"properties": {
+				"date": {
+					"type": "string"
+				},
+				"description": {
+					"type": "string"
+				}
+			},
+			"title": "TimelineEvent"
+		},
+		"URI": {
+			"type": "object",
+			"properties": {
+				"absolute": {
+					"type": "boolean"
+				},
+				"authority": {
+					"type": "string"
+				},
+				"fragment": {
+					"type": "string"
+				},
+				"host": {
+					"type": "string"
+				},
+				"opaque": {
+					"type": "boolean"
+				},
+				"path": {
+					"type": "string"
+				},
+				"port": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"query": {
+					"type": "string"
+				},
+				"rawAuthority": {
+					"type": "string"
+				},
+				"rawFragment": {
+					"type": "string"
+				},
+				"rawPath": {
+					"type": "string"
+				},
+				"rawQuery": {
+					"type": "string"
+				},
+				"rawSchemeSpecificPart": {
+					"type": "string"
+				},
+				"rawUserInfo": {
+					"type": "string"
+				},
+				"scheme": {
+					"type": "string"
+				},
+				"schemeSpecificPart": {
+					"type": "string"
+				},
+				"userInfo": {
+					"type": "string"
+				}
+			},
+			"title": "URI"
+		},
+		"URL": {
+			"type": "object",
+			"properties": {
+				"authority": {
+					"type": "string"
+				},
+				"content": {
+					"type": "object"
+				},
+				"defaultPort": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"file": {
+					"type": "string"
+				},
+				"host": {
+					"type": "string"
+				},
+				"path": {
+					"type": "string"
+				},
+				"port": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"protocol": {
+					"type": "string"
+				},
+				"query": {
+					"type": "string"
+				},
+				"ref": {
+					"type": "string"
+				},
+				"userInfo": {
+					"type": "string"
+				}
+			},
+			"title": "URL"
+		},
+		"UserRoleRequest": {
+			"type": "object",
+			"properties": {
+				"role": {
+					"type": "string"
+				}
+			},
+			"title": "UserRoleRequest"
+		}
+	}
+}
