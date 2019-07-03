@@ -1,9 +1,9 @@
 {
 	"swagger": "2.0",
 	"info": {
-		"description": "Claim API",
+		"description": "Claim Store API Deprecated",
 		"version": "1.0",
-		"title": "Claim API",
+		"title": "Claim Store API",
 		"termsOfService": "urn:tos",
 		"contact": {
 			
